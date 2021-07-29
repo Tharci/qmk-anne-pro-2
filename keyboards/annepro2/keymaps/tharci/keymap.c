@@ -85,9 +85,7 @@ enum custom_keys {
     KC_UP_10,
     KC_DOWN_10,
     KC_LEFT_10,
-    KC_RIGHT_10,
-
-    KC_NONE,
+    KC_RIGHT_10
 };
 
 
@@ -246,8 +244,8 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  [_BASE_LAYER] = KEYMAP(
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSPC,
     KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
-    TD(TD_CAPS_LAYERS), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, LT(_FN1_LAYER, KC_ENT),
-    LSFT_T(KC_BSPC), KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
+    LT(_FN1_LAYER, KC_CAPS), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, LT(_FN1_LAYER, KC_ENT),
+    KC_LSHIFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
     KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER, KC_LEFT), RCTL_T(KC_DOWN), LT(_FN2_LAYER, KC_RGHT)
  ),
 
@@ -255,7 +253,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_DEL,
     KC_TRNS, KC_VOLU, KC_MNXT, KC_BRIU, KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_BTN4, KC_UP, KC_MS_BTN5, KC_PSCR, KC_HOME, KC_END, KC_TRNS,
     KC_TRNS, KC_VOLD, KC_MPRV, KC_BRID, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGUP, KC_PGDN, KC_TRNS,
-    KC_TRNS, KC_MUTE, KC_MPLY, KC_CALC, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
+    KC_TRNS, KC_MUTE, KC_MPLY, KC_CALC, KC_TRNS, KC_TRNS, KC_TRNS, KC_LEAD, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
  ),
 
@@ -285,9 +283,6 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 const uint16_t keymaps_size = sizeof(keymaps);
-
-
-PowerPlan powerPlan = POWER_SAVING;
 
 
 void matrix_init_user(void) {
@@ -343,6 +338,18 @@ void matrix_scan_user(void) {
 
         SEQ_THREE_KEYS(KC_T, KC_M, KC_E) {
             ledShowTime();
+        }
+
+        SEQ_TWO_KEYS(KC_P, KC_1) {
+            pers_setPowerPlan(POWER_BATT);
+        }
+
+        SEQ_TWO_KEYS(KC_P, KC_2) {
+            pers_setPowerPlan(POWER_USB);
+        }
+
+        SEQ_TWO_KEYS(KC_P, KC_3) {
+            pers_setPowerPlan(POWER_MAX);
         }
     }
 }
@@ -461,9 +468,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
             multiplePress(KC_RIGHT, 10);
             return false;
 
-        case KC_NONE:
-            return false;
-
         default:
             break;
         }
@@ -475,6 +479,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
 void keyboard_post_init_user(void) {
     pers_init();
-
-    ledSetPowerPlan(powerPlan);
 }

@@ -94,7 +94,7 @@ void ledGoIntoIAP(void) {
 }
 
 void ledSetPowerPlan(PowerPlan powerPlan) {
-    sdPut(&SD0, LED_POWER_PLAN);
+    sdPut(&SD0, LED_SET_POWER_PLAN);
     sdPut(&SD0, powerPlan);
 }
 
@@ -111,3 +111,6 @@ void ledShowTime(void) {
   sdPut(&SD0, LED_SHOW_TIME);
 }
 
+void ledMainInitDone(void) {
+  sdPut(&SD0, LED_MAIN_INIT_DONE);
+}

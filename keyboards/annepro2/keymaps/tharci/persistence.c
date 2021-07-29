@@ -1,4 +1,4 @@
-#include "persistence.h"
+// #include "persistence.h"
 
 #include "led.h"
 #include "ble.h"
@@ -14,7 +14,8 @@ static user_config_t user_config = {
     .leds_on = 0, 
     .leds_profile = 0, 
     .locked = 0, 
-    .brightness = 100 
+    .brightness = 100,
+    .powerPlan = POWER_USB
 };
 
 // keep the number of profiles so we can track along with the led mcu
@@ -76,6 +77,10 @@ void pers_init() {
         wait_ms(500);
         ble_connect(0);
     }
+
+    ledSetPowerPlan(user_config.powerPlan);
+
+    ledMainInitDone();
 }
 
 void pers_tick() {
@@ -123,5 +128,11 @@ void pers_ledBrightDown() {
     ledBrightDown();
     user_config.brightness = ledGetBrightness();
     saveConfig();
+}
+
+void pers_setPowerPlan(PowerPlan powerPlan) {
+    user_config.powerPlan = powerPlan;
+    saveConfig();
+    ledSetPowerPlan(powerPlan);
 }
 

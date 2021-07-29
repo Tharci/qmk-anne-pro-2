@@ -1,6 +1,7 @@
 #pragma once
 
 #include "annepro2.h"
+#include "persistence.h"
 
 enum LedMsgCode {           // Messages:
     LED_TOGGLE = 1,         // 1 byte: 0 - off, 1 - on
@@ -22,13 +23,12 @@ enum LedMsgCode {           // Messages:
     LED_GAMING_OFF,
     LED_SET_LOCKED,
     LED_IAP_MODE,
-    LED_POWER_PLAN,         // 1 byte; 0 - normal, 1 - power saving
+    LED_SET_POWER_PLAN,     // 1 byte; 0 - battery, 1 - usb, 2 - max
     LED_UPDATE_WEATHER,
     LED_SHOW_TEMP,
-    LED_SHOW_TIME
+    LED_SHOW_TIME,
+    LED_MAIN_INIT_DONE,
 };
-
-typedef enum { POWER_NORMAL, POWER_SAVING } PowerPlan;
 
 
 void ledToggle(void);
@@ -53,3 +53,4 @@ void ledSetPowerPlan(PowerPlan powerPlan);
 void ledSetWeather(uint8_t* data, uint8_t length);
 void ledShowTemp(void);
 void ledShowTime(void);
+void ledMainInitDone(void);
