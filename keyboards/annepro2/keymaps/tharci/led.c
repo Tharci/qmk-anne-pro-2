@@ -114,3 +114,7 @@ void ledShowTime(void) {
 void ledMainInitDone(void) {
   sdPut(&SD0, LED_MAIN_INIT_DONE);
 }
+
+void ledDriverConnected(void) {
+  sdPut(&SD0, LED_DRIVER_CONNECTED);
+}

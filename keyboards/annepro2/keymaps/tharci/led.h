@@ -28,6 +28,7 @@ enum LedMsgCode {           // Messages:
     LED_SHOW_TEMP,
     LED_SHOW_TIME,
     LED_MAIN_INIT_DONE,
+    LED_DRIVER_CONNECTED,
 };
 
 
@@ -54,3 +55,4 @@ void ledSetWeather(uint8_t* data, uint8_t length);
 void ledShowTemp(void);
 void ledShowTime(void);
 void ledMainInitDone(void);
+void ledDriverConnected(void);

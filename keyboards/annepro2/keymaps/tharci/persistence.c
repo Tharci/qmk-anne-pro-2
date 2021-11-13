@@ -74,7 +74,7 @@ void pers_init() {
 
     // TODO: Check if the keyboard is plugged in
     if (false) {
-        wait_ms(500);
+        wait_ms(100);
         ble_connect(0);
     }
 
