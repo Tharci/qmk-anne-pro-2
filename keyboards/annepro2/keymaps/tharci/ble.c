@@ -101,6 +101,8 @@ void ble_connect(uint8_t port) {
 }
 
 void ble_disconnect(void) {
+    ledBleConnected();
+
     /* Skip if the driver is already enabled */
     if (host_get_driver() != &ble_driver) {
         return;
@@ -111,8 +113,6 @@ void ble_disconnect(void) {
     keymap_config.nkro = lastNkroStatus;
 #endif
     host_set_driver(lastHostDriver);
-    
-    ledBleConnected();
 }
 
 void ble_unpair(void) {
