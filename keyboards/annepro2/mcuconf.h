@@ -50,6 +50,8 @@
  * Peripheral driver settings
  */
 
+#define SERIAL_BUFFERS_SIZE 128
+
 #define HT32_SERIAL_USE_USART0              TRUE
 #define HT32_USART0_IRQ_PRIORITY            6
 
