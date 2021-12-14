@@ -7,64 +7,64 @@
 
 
 void ledToggle(void) {
-  sdPut(&SD0, LED_TOGGLE);
+    sdPut(&SD0, LED_TOGGLE);
 }
 
 void ledSetProfile(uint8_t profile) {
-  sdPut(&SD0, LED_SET_PROFILE);
-  sdPut(&SD0, profile);
+    sdPut(&SD0, LED_SET_PROFILE);
+    sdPut(&SD0, profile);
 }
 
 uint8_t ledGetProfile(void) {
-  uint8_t buf = 0;
-  sdPut(&SD0, LED_GET_PROFILE);
-  buf = sdGet(&SD0);
-  return buf;
+    uint8_t buf = 0;
+    sdPut(&SD0, LED_GET_PROFILE);
+    buf = sdGet(&SD0);
+    return buf;
 }
 
 uint8_t ledGetNumProfiles(void) {
-  uint8_t profileCount = 0;
-  sdPut(&SD0, LED_GET_PROFILE_COUNT);
-  profileCount = sdGet(&SD0);
-  return profileCount;
+    uint8_t profileCount = 0;
+    sdPut(&SD0, LED_GET_PROFILE_COUNT);
+    profileCount = sdGet(&SD0);
+    return profileCount;
 }
 
 void ledNextProfile(void) {
-  sdPut(&SD0, LED_NEXT_PROFILE);
+    sdPut(&SD0, LED_NEXT_PROFILE);
 }
 
 void ledKeyPressed(uint8_t keyPos) {
-  sdPut(&SD0, LED_KEY_PRESSED);
-  sdPut(&SD0, keyPos);
+    sdPut(&SD0, LED_KEY_PRESSED);
+    sdPut(&SD0, keyPos);
 }
 
 void ledBrightDown(void) {
-  sdPut(&SD0, LED_BRIGHT_DOWN);
+    sdPut(&SD0, LED_BRIGHT_DOWN);
 }
 
 void ledBrightUp(void) {
-  sdPut(&SD0, LED_BRIGHT_UP);
+    sdPut(&SD0, LED_BRIGHT_UP);
 }
 
 void ledCapsOn(void) {
-  sdPut(&SD0, LED_CAPS_ON);
+    sdPut(&SD0, LED_CAPS_ON);
 }
 
 void ledCapsOff(void) {
-  sdPut(&SD0, LED_CAPS_OFF);
+    sdPut(&SD0, LED_CAPS_OFF);
 }
 
 
 void ledSetBrightness(uint8_t brightness) {
-  sdPut(&SD0, LED_SET_BRIGHT);
-  sdPut(&SD0, brightness);
+    sdPut(&SD0, LED_SET_BRIGHT);
+    sdPut(&SD0, brightness);
 }
 
 uint8_t ledGetBrightness(void) {
-  uint8_t brightness = 0;
-  sdPut(&SD0, LED_GET_BRIGHT);
-  brightness = sdGet(&SD0);
-  return brightness;
+    uint8_t brightness = 0;
+    sdPut(&SD0, LED_GET_BRIGHT);
+    brightness = sdGet(&SD0);
+    return brightness;
 }
 
 void ledGamingOn(void) {
@@ -99,22 +99,22 @@ void ledSetPowerPlan(PowerPlan powerPlan) {
 }
 
 void ledSetWeather(uint8_t* data, uint8_t length) {
-  sdPut(&SD0, LED_UPDATE_WEATHER);
-  sdWrite(&SD0, data, length);
+    sdPut(&SD0, LED_UPDATE_WEATHER);
+    sdWrite(&SD0, data, length);
 }
 
 void ledShowTemp(void) {
-  sdPut(&SD0, LED_SHOW_TEMP);
+    sdPut(&SD0, LED_SHOW_TEMP);
 }
 
 void ledShowTime(void) {
-  sdPut(&SD0, LED_SHOW_TIME);
+    sdPut(&SD0, LED_SHOW_TIME);
 }
 
 void ledMainInitDone(void) {
-  sdPut(&SD0, LED_MAIN_INIT_DONE);
+    sdPut(&SD0, LED_MAIN_INIT_DONE);
 }
 
 void ledDriverConnected(void) {
-  sdPut(&SD0, LED_DRIVER_CONNECTED);
+    sdPut(&SD0, LED_DRIVER_CONNECTED);
 }
