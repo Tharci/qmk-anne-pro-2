@@ -29,6 +29,7 @@ enum LedMsgCode {           // Messages:
     LED_SHOW_TIME,
     LED_MAIN_INIT_DONE,
     LED_DRIVER_CONNECTED,
+    LED_SET_LAYER,          // 1 byte: layer
 };
 
 
@@ -56,3 +57,4 @@ void ledShowTemp(void);
 void ledShowTime(void);
 void ledMainInitDone(void);
 void ledDriverConnected(void);
+void ledSetLayer(layer_state_t layer);

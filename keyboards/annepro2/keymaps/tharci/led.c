@@ -118,3 +118,8 @@ void ledMainInitDone(void) {
 void ledDriverConnected(void) {
     sdPut(&SD0, LED_DRIVER_CONNECTED);
 }
+
+void ledSetLayer(layer_state_t layer) {
+    sdPut(&SD0, LED_SET_LAYER);
+    sdPut(&SD0, layer);
+}

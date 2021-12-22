@@ -46,7 +46,7 @@ enum custom_keys {
 };
 
 enum anne_pro_layers {
-  _BASE_LAYER,
+  _BASE_LAYER = 0,
   _FN1_LAYER,
   _FN2_LAYER,
   _GAMING_ARROW_LAYER,
@@ -138,7 +138,7 @@ static void td_caps_layers_finished(qk_tap_dance_state_t *state, void *user_data
             // keycodes are executed when tap-dance gets interrupted
             if (state->interrupted) {
                 switch(state->interrupting_keycode) {
-                case KC_M:
+                case KC_SPC:
                     register_code(KC_LALT);
                     tap_code(KC_TAB);
                     break;
@@ -197,8 +197,8 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV , KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_DEL,
     KC_DEL , KC_TRNS, KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, KC_TRNS, KC_MS_BTN4, KC_UP, KC_MS_BTN5, KC_PSCR, KC_HOME, KC_END, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_SAVE, KC_UNDO, KC_REDO, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGUP, KC_PGDN, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TABLOOP, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_LCTL, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_LCTL, KC_TABLOOP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
  ),
 
  [_FN2_LAYER] = KEYMAP(
@@ -234,8 +234,20 @@ void matrix_init_user(void) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t layer) {
-    if (IS_LAYER_OFF(_FN1_LAYER) && IS_LAYER_OFF(_FN2_LAYER))
+    if (layer == 0)
         unregister_code(KC_LALT);
+
+    layer_state_t layerShifted = layer >> 1;
+    if (layerShifted & _FN2_LAYER) {
+        ledSetLayer(2);
+    }
+    else if (layerShifted & _FN1_LAYER) {
+        ledSetLayer(1);
+    }
+    else {
+        ledSetLayer(0);
+    }
+
     return layer;
 }
 
@@ -311,16 +323,20 @@ static void setNumpadOn(uint8_t led_state) {
     }
 }
 
-void led_set_user(uint8_t led_state) {
-    setNumpadOn(led_state);
+void led_set_user(uint8_t ledState) {
+    static uint8_t prevState = 0;
+
+    setNumpadOn(ledState);
 
     // Update caps lock led.
-    if (led_state & (1<<USB_LED_CAPS_LOCK)) {
+    if ((ledState & (1<<USB_LED_CAPS_LOCK)) && !(prevState & (1<<USB_LED_CAPS_LOCK))) {
         ledCapsOn();
     }
-    else {
+    else if (!(ledState & (1<<USB_LED_CAPS_LOCK)) && (prevState & (1<<USB_LED_CAPS_LOCK))) {
         ledCapsOff();
     }
+
+    prevState = ledState;
 }
 
 
