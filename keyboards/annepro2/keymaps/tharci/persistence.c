@@ -2,6 +2,8 @@
 
 #include "led.h"
 #include "ble.h"
+#include "hid_comm.h"
+#include "raw_hid.h"
 
 
 /* 
@@ -37,6 +39,16 @@ static void executeLock(void) {
         host_set_driver(0);
     } else {
         host_set_driver(driver);
+    }
+}
+
+void pers_audioVisUpdate(void) {
+    if(user_config.leds_profile == 3) {
+        uint8_t data[2] = {AudioVisualizer, 1};
+        raw_hid_send(data, RAW_EPSIZE);
+    } else {
+        uint8_t data[2] = {AudioVisualizer, 0};
+        raw_hid_send(data, RAW_EPSIZE);
     }
 }
 
@@ -81,6 +93,8 @@ void pers_init() {
     ledSetPowerPlan(user_config.powerPlan);
 
     ledMainInitDone();
+    
+    pers_audioVisUpdate();
 }
 
 void pers_tick() {
@@ -108,12 +122,14 @@ void pers_ledToggle() {
 
 void pers_ledNextProf() {
     user_config.leds_profile = (user_config.leds_profile + 1) % numProfiles;
+    pers_audioVisUpdate();
     ledSetProfile(user_config.leds_profile);
     saveConfig();
 }
 
 void pers_ledPrevProf() {
     user_config.leds_profile = (user_config.leds_profile + numProfiles - 1) % numProfiles;
+    pers_audioVisUpdate();
     ledSetProfile(user_config.leds_profile);
     saveConfig();
 }

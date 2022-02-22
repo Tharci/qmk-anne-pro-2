@@ -43,12 +43,17 @@ enum custom_keys {
     KC_LEFT_10,
     KC_RIGHT_10,
     KC_TABLOOP,
+    KC_UP_CUST,
+    KC_DOWN_CUST,
+    KC_LEFT_CUST,
+    KC_RIGHT_CUST,
 };
 
 enum anne_pro_layers {
   _BASE_LAYER = 0,
   _FN1_LAYER,
   _FN2_LAYER,
+  _FN3_LAYER,
   _GAMING_ARROW_LAYER,
   _GAMING_NUMPAD_LAYER
 };
@@ -87,7 +92,7 @@ typedef enum {
     TD_SINGLE_HOLD,
     TD_DOUBLE_TAP,
     TD_DOUBLE_HOLD,
-    TD_DOUBLE_SINGLE_TAP, // Send two single taps
+    TD_DOUBLE_SINGLE_TAP,
     TD_TRIPLE_TAP,
     TD_TRIPLE_HOLD
 } td_state_t;
@@ -108,8 +113,8 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
         else return TD_DOUBLE_TAP;
     }
     else if (state->count == 3) {
-        if (!state->pressed) return TD_TRIPLE_TAP;
-        else return TD_TRIPLE_HOLD;
+        if (state->pressed) return TD_TRIPLE_HOLD;
+        else return TD_TRIPLE_TAP;
     } 
     else  {
         return TD_UNKNOWN;
@@ -128,7 +133,8 @@ static void td_caps_layers_finished(qk_tap_dance_state_t *state, void *user_data
     
     switch (caps_layers_tap_state.state) {
         case TD_SINGLE_TAP: 
-            tap_code(KC_CAPS);
+            register_code(KC_CAPS);
+            unregister_code(KC_CAPS);
             break;
 
         case TD_SINGLE_HOLD: 
@@ -140,7 +146,27 @@ static void td_caps_layers_finished(qk_tap_dance_state_t *state, void *user_data
                 switch(state->interrupting_keycode) {
                 case KC_SPC:
                     register_code(KC_LALT);
-                    tap_code(KC_TAB);
+                    register_code16(KC_TAB);
+                    break;
+                    
+                case KC_I:
+                    tap_code16(KC_LCTRL);
+                    register_code16(KC_UP);
+                    break;
+                    
+                case KC_K:
+                    tap_code16(KC_LCTRL);
+                    register_code16(KC_DOWN);
+                    break;
+                    
+                case KC_J:
+                    tap_code16(KC_LCTRL);
+                    register_code16(KC_LEFT);
+                    break;
+                    
+                case KC_L:
+                    tap_code16(KC_LCTRL);
+                    register_code16(KC_RIGHT);
                     break;
                 }
             }
@@ -188,23 +214,31 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  [_BASE_LAYER] = KEYMAP(
     KC_ESC, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_EQL, KC_BSPC,
     KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_LBRC, KC_RBRC, KC_BSLS,
-    TD(TD_CAPS_LAYERS), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, LT(_FN1_LAYER, KC_ENT),
+    TD(TD_CAPS_LAYERS), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_ENT,
     KC_LSHIFT, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER, KC_LEFT), RCTL_T(KC_DOWN), LT(_FN2_LAYER, KC_RGHT)
+    KC_LCTL, KC_LGUI, KC_LALT, KC_SPC, KC_RALT, LT(_FN1_LAYER, KC_LEFT), RCTL_T(KC_DOWN), LT(_FN3_LAYER, KC_RGHT)
  ),
 
  [_FN1_LAYER] = KEYMAP(
     KC_GRV , KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_DEL,
-    KC_DEL , KC_TRNS, KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, KC_TRNS, KC_MS_BTN4, KC_UP, KC_MS_BTN5, KC_PSCR, KC_HOME, KC_END, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_SAVE, KC_UNDO, KC_REDO, KC_TRNS, KC_TRNS, KC_LEFT, KC_DOWN, KC_RIGHT, KC_PGUP, KC_PGDN, KC_TRNS,
+    KC_DEL , KC_TRNS, KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, KC_TRNS, KC_MS_BTN4, KC_UP_CUST, KC_MS_BTN5, KC_PSCR, KC_HOME, KC_END, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_SAVE, KC_UNDO, KC_REDO, KC_TRNS, KC_TRNS, KC_LEFT_CUST, KC_DOWN_CUST, KC_RIGHT_CUST, KC_PGUP, KC_PGDN, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_INS, KC_DEL, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_LCTL, KC_TABLOOP, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
  ),
 
  [_FN2_LAYER] = KEYMAP(
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, KC_TRNS, KC_MS_BTN4, LSFT(KC_UP), KC_MS_BTN5, KC_TRNS, LSFT(KC_HOME), LSFT(KC_END), KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_SAVE, KC_UNDO, KC_REDO, KC_GAMING_OFF, KC_TRNS, LSFT(KC_LEFT), LSFT(KC_DOWN), LSFT(KC_RIGHT), LSFT(KC_PGUP), LSFT(KC_PGDN), KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_LCTL, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
+ ),
+
+ [_FN3_LAYER] = KEYMAP(
     KC_USB, TD(TD_BLT_1), TD(TD_BLT_2), TD(TD_BLT_3), TD(TD_BLT_4), KC_TRNS, KC_TRNS, KC_TRNS, KC_LED_TOGGLE, KC_LED_PREV_PROFILE, KC_LED_NEXT_PROFILE, KC_LED_BRIGHT_DOWN, KC_LED_BRIGHT_UP, KC_TRNS,
-    KC_TRNS, KC_VOLU, KC_MNXT, KC_BRIU, KC_TRNS, KC_TRNS, KC_TRNS, KC_MS_BTN4, LSFT(KC_UP), KC_MS_BTN5, KC_TRNS, LSFT(KC_HOME), LSFT(KC_END), KC_TRNS,
-    KC_TRNS, KC_VOLD, KC_MPRV, KC_BRID, KC_TRNS, KC_GAMING_OFF, KC_TRNS, LSFT(KC_LEFT), LSFT(KC_DOWN), LSFT(KC_RIGHT), LSFT(KC_PGUP), LSFT(KC_PGDN), KC_TRNS,
+    KC_TRNS, KC_VOLU, KC_MNXT, KC_BRIU, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_VOLD, KC_MPRV, KC_BRID, KC_TRNS, KC_GAMING_OFF, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_MUTE, KC_MPLY, KC_CALC, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_LCTL, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
  ),
@@ -214,7 +248,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_UP,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(_FN2_LAYER), KC_LEFT, KC_DOWN, KC_RGHT
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(_FN3_LAYER), KC_LEFT, KC_DOWN, KC_RGHT
  ),
 
  [_GAMING_NUMPAD_LAYER] = KEYMAP(
@@ -222,7 +256,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_KP_8,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(_FN2_LAYER), KC_KP_4, KC_KP_5, KC_KP_6
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MO(_FN3_LAYER), KC_KP_4, KC_KP_5, KC_KP_6
  ),
 };
 
@@ -319,7 +353,7 @@ void matrix_scan_user(void) {
 static void setNumpadOn(uint8_t led_state) {
     // Keeps Numpad turned on while _GAMING_NUMPAD_LAYER is on.
     if (layer_state_is(_GAMING_NUMPAD_LAYER) && !(led_state & (1<<USB_LED_NUM_LOCK))) {
-        tap_code(KC_NUMLOCK);
+        tap_code16(KC_NUMLOCK);
     }
 }
 
@@ -432,7 +466,51 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
         case KC_TABLOOP:
             register_code(KC_LALT);
-            tap_code(KC_TAB);
+            register_code16(KC_TAB);
+            return false;
+
+        case KC_UP_CUST:
+            register_code16(KC_UP);
+            return false;
+
+        case KC_DOWN_CUST:
+            register_code16(KC_DOWN);
+            return false;
+
+        case KC_LEFT_CUST:
+            register_code16(KC_LEFT);
+            return false;
+
+        case KC_RIGHT_CUST:
+            register_code16(KC_RIGHT);
+            return false;
+
+        default:
+            break;
+        }
+    }
+
+    if (!record->event.pressed && !pers_isLocked()) {
+        switch(keycode) {
+
+        case KC_TABLOOP:
+            unregister_code16(KC_TAB);
+            return false;
+
+        case KC_UP_CUST:
+            unregister_code16(KC_UP);
+            return false;
+
+        case KC_DOWN_CUST:
+            unregister_code16(KC_DOWN);
+            return false;
+
+        case KC_LEFT_CUST:
+            unregister_code16(KC_LEFT);
+            return false;
+
+        case KC_RIGHT_CUST:
+            unregister_code16(KC_RIGHT);
             return false;
 
         default:

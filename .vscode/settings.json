@@ -21,7 +21,9 @@
         "chrono": "c",
         "iterator": "c",
         "xhash": "c",
-        "xtree": "c"
+        "xtree": "c",
+        "xutility": "c",
+        "mutex": "c"
     },
     "[markdown]": {
         "editor.trimAutoWhitespace": false,

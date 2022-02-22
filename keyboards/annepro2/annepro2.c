@@ -62,6 +62,8 @@ void OVERRIDE keyboard_post_init_kb(void) {
     while(!sdGetWouldBlock(&SD1))
         sdGet(&SD1);
 
+    led_init();
+
     keyboard_post_init_user();
 }
 

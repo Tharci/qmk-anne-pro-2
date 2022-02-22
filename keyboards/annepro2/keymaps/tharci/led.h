@@ -3,7 +3,7 @@
 #include "annepro2.h"
 #include "persistence.h"
 
-enum LedMsgCode {           // Messages:
+typedef enum {           // Messages:
     LED_TOGGLE = 1,         // 1 byte: 0 - off, 1 - on
     LED_NEXT_PROFILE,       // 0 byte
     LED_PREV_PROFILE,       // 0 byte
@@ -30,9 +30,11 @@ enum LedMsgCode {           // Messages:
     LED_MAIN_INIT_DONE,
     LED_DRIVER_CONNECTED,
     LED_SET_LAYER,          // 1 byte: layer
-};
+    LED_AUDIO_PACKET,       // 14 bytes
+} LedMsgCode;
 
 
+void led_init(void);
 void ledToggle(void);
 void ledSetProfile(uint8_t prof);
 uint8_t ledGetProfile(void);
@@ -58,3 +60,4 @@ void ledShowTime(void);
 void ledMainInitDone(void);
 void ledDriverConnected(void);
 void ledSetLayer(layer_state_t layer);
+void ledAudioPacket(uint8_t* data, uint8_t length);

@@ -50,10 +50,10 @@
  * Peripheral driver settings
  */
 
-#define SERIAL_BUFFERS_SIZE 128
+#define SERIAL_BUFFERS_SIZE 256
 
 #define HT32_SERIAL_USE_USART0              TRUE
-#define HT32_USART0_IRQ_PRIORITY            6
+#define HT32_USART0_IRQ_PRIORITY            3
 
 #define HT32_SERIAL_USE_USART1              TRUE
 #define HT32_USART1_IRQ_PRIORITY            7
@@ -62,8 +62,9 @@
  * USB driver settings
  */
 
+#define SERIAL_USB_BUFFERS_SIZE     256
 #define HT32_USB_USE_USB0                   TRUE
-#define HT32_USB_USB0_IRQ_PRIORITY          5
+#define HT32_USB_USB0_IRQ_PRIORITY          7
 
 
 #endif /* _MCUCONF_H_ */

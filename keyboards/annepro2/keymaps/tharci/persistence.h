@@ -18,6 +18,7 @@ typedef struct {
 } user_config_t;
 
 
+void pers_audioVisUpdate(void);
 void pers_init(void);
 void pers_tick(void);
 
