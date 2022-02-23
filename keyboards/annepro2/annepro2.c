@@ -19,15 +19,6 @@ static uint8_t ledMcuWakeup[11] = {
 
 static bool ledEnabled = false;
 
-ble_capslock_t BLECapsLock = {._dummy = {0}, .caps_lock = false};
-
-uint16_t annepro2LedMatrix[MATRIX_ROWS * MATRIX_COLS] = {
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-  0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-};
 
 void OVERRIDE keyboard_pre_init_kb(void) {
 #if HAL_USE_SPI == TRUE

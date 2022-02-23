@@ -47,6 +47,12 @@ enum custom_keys {
     KC_DOWN_CUST,
     KC_LEFT_CUST,
     KC_RIGHT_CUST,
+    KC_LEDSTATE1,
+    KC_LEDSTATE2,
+    KC_LEDSTATE3,
+    KC_LEDSTATE4,
+    KC_LEDSTATE5,
+    KC_LEDSTATE6,
 };
 
 enum anne_pro_layers {
@@ -228,7 +234,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  ),
 
  [_FN2_LAYER] = KEYMAP(
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_USB, TD(TD_BLT_1), TD(TD_BLT_2), TD(TD_BLT_3), TD(TD_BLT_4), KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_CUT, KC_COPY, KC_PASTE, KC_SELECT, KC_TRNS, KC_MS_BTN4, LSFT(KC_UP), KC_MS_BTN5, KC_TRNS, LSFT(KC_HOME), LSFT(KC_END), KC_TRNS,
     KC_TRNS, KC_TRNS, KC_SAVE, KC_UNDO, KC_REDO, KC_GAMING_OFF, KC_TRNS, LSFT(KC_LEFT), LSFT(KC_DOWN), LSFT(KC_RIGHT), LSFT(KC_PGUP), LSFT(KC_PGDN), KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -236,7 +242,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  ),
 
  [_FN3_LAYER] = KEYMAP(
-    KC_USB, TD(TD_BLT_1), TD(TD_BLT_2), TD(TD_BLT_3), TD(TD_BLT_4), KC_TRNS, KC_TRNS, KC_TRNS, KC_LED_TOGGLE, KC_LED_PREV_PROFILE, KC_LED_NEXT_PROFILE, KC_LED_BRIGHT_DOWN, KC_LED_BRIGHT_UP, KC_TRNS,
+    KC_TRNS, KC_LEDSTATE1, KC_LEDSTATE2, KC_LEDSTATE3, KC_LEDSTATE4, KC_LEDSTATE5, KC_LEDSTATE6, KC_TRNS, KC_LED_TOGGLE, KC_LED_PREV_PROFILE, KC_LED_NEXT_PROFILE, KC_LED_BRIGHT_DOWN, KC_LED_BRIGHT_UP, KC_TRNS,
     KC_TRNS, KC_VOLU, KC_MNXT, KC_BRIU, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_VOLD, KC_MPRV, KC_BRID, KC_TRNS, KC_GAMING_OFF, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_MUTE, KC_MPLY, KC_CALC, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -483,6 +489,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
 
         case KC_RIGHT_CUST:
             register_code16(KC_RIGHT);
+            return false;
+
+        case KC_LEDSTATE1:
+            pers_setProfileState(0);
+            return false;
+
+        case KC_LEDSTATE2:
+            pers_setProfileState(1);
+            return false;
+
+        case KC_LEDSTATE3:
+            pers_setProfileState(2);
+            return false;
+
+        case KC_LEDSTATE4:
+            pers_setProfileState(3);
+            return false;
+
+        case KC_LEDSTATE5:
+            pers_setProfileState(4);
+            return false;
+
+        case KC_LEDSTATE6:
+            pers_setProfileState(5);
             return false;
 
         default:

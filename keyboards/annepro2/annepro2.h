@@ -27,8 +27,6 @@ typedef struct __attribute__((__packed__)) {
 
 extern uint16_t annepro2LedMatrix[MATRIX_ROWS * MATRIX_COLS];
 
-extern ble_capslock_t BLECapsLock;
-
 enum AP2KeyCodes {
     KC_AP2_BT1 = SAFE_RANGE,
     KC_AP2_BT2,

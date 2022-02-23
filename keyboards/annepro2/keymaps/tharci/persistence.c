@@ -17,10 +17,10 @@ static user_config_t user_config = {
     .leds_profile = 0, 
     .locked = 0, 
     .brightness = 100,
-    .powerPlan = POWER_USB
+    .powerPlan = POWER_USB,
+    .profileStates = {0}
 };
 
-// keep the number of profiles so we can track along with the led mcu
 static int8_t numProfiles = 0;
 
 static host_driver_t* driver;
@@ -43,7 +43,7 @@ static void executeLock(void) {
 }
 
 void pers_audioVisUpdate(void) {
-    if(user_config.leds_profile == 3) {
+    if(user_config.leds_profile == 0) {
         uint8_t data[2] = {AudioVisualizer, 1};
         raw_hid_send(data, RAW_EPSIZE);
     } else {
@@ -76,7 +76,7 @@ void pers_init() {
         ledToggle();
     }
 
-    numProfiles = ledGetNumProfiles();
+    numProfiles = ledGetNumProfiles() % LED_MAX_PROFILE_COUNT;
 
     ledSetBrightness(user_config.brightness);
 
@@ -91,6 +91,11 @@ void pers_init() {
     }
 
     ledSetPowerPlan(user_config.powerPlan);
+
+    for (int i = 0; i < numProfiles; i++) {
+        ledSetProfileState(i, user_config.profileStates[i]);
+        chThdSleepMilliseconds(10);
+    }
 
     ledMainInitDone();
     
@@ -152,3 +157,9 @@ void pers_setPowerPlan(PowerPlan powerPlan) {
     ledSetPowerPlan(powerPlan);
 }
 
+
+void pers_setProfileState(uint8_t state) {
+    user_config.profileStates[user_config.leds_profile] = state;
+    saveConfig();
+    ledSetProfileState(user_config.leds_profile, state);
+}
