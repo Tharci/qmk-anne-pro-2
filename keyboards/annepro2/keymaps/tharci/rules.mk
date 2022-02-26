@@ -24,3 +24,4 @@ SRC += ble.c
 SRC += led.c
 SRC += hid_comm.c
 SRC += persistence.c
+SRC += random_words.c

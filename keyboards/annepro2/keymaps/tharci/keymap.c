@@ -5,6 +5,7 @@
 #include "hid_comm.h"
 #include "persistence.h"
 #include "raw_hid.h"
+#include "random_words.h"
 
 
 #define KC_SELECT LCTL(KC_A)
@@ -415,6 +416,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     }
 
     if (record->event.pressed && !pers_isLocked()) {
+        randomWords_update(keycode);
+
         switch (keycode) {
         case KC_LED_TOGGLE:
             pers_ledToggle();

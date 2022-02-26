@@ -143,3 +143,8 @@ void ledSetProfileState(uint8_t profile, uint8_t state) {
     sdPut(&SD0, profile);
     sdPut(&SD0, state);
 }
+
+void ledRandomWord(EffectEnum effect) {
+    ledSendMessageCode(LED_RANDOM_WORD);
+    sdPut(&SD0, (uint8_t) effect);
+}

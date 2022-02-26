@@ -56,7 +56,6 @@ void pers_audioVisUpdate(void) {
 /* 
  * GLOBAL FUNCTIONS 
  */
-
 void pers_init() {
     // Read the user config from EEPROM
     eeprom_read((void*)&user_config, 0, sizeof(user_config_t));

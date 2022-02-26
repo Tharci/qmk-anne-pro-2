@@ -2,6 +2,7 @@
 
 #include "annepro2.h"
 #include "persistence.h"
+#include "random_words.h"
 
 typedef enum {           // Messages:
     LED_TOGGLE = 1,         // 1 byte: 0 - off, 1 - on
@@ -31,7 +32,8 @@ typedef enum {           // Messages:
     LED_DRIVER_CONNECTED,
     LED_SET_LAYER,          // 1 byte: layer
     LED_AUDIO_PACKET,       // 14 bytes
-    LED_SET_PROF_STATE,         // 2 bytes: profile, state (1 - 6)
+    LED_SET_PROF_STATE,     // 2 bytes: profile, state (1 - 6)
+    LED_RANDOM_WORD,        // 1 byte: effect
 } LedMsgCode;
 
 
@@ -63,3 +65,4 @@ void ledDriverConnected(void);
 void ledSetLayer(layer_state_t layer);
 void ledAudioPacket(uint8_t* data, uint8_t length);
 void ledSetProfileState(uint8_t profile, uint8_t state);
+void ledRandomWord(EffectEnum effect);
