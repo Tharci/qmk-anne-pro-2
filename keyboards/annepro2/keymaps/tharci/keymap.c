@@ -14,7 +14,8 @@
 #define KC_PASTE LCTL(KC_V)
 #define KC_SAVE LCTL(KC_S)
 #define KC_UNDO LCTL(KC_Z)
-#define KC_REDO LCTL(LSFT(KC_Z))
+#define KC_REDO LCTL(KC_Y)
+// #define KC_REDO LCTL(LSFT(KC_Z))
 
 
 static void goIntoIAP(void);
@@ -135,13 +136,21 @@ static td_tap_t caps_layers_tap_state = {
 
 static void multiplePress(uint16_t keycode, int n);
 
+// Tap Dance declarations
+enum {
+    TD_BLT_1,
+    TD_BLT_2,
+    TD_BLT_3,
+    TD_BLT_4,
+    TD_CAPS_LAYERS,
+};
+
 static void td_caps_layers_finished(qk_tap_dance_state_t *state, void *user_data) {
     caps_layers_tap_state.state = cur_dance(state);
     
     switch (caps_layers_tap_state.state) {
         case TD_SINGLE_TAP: 
-            register_code(KC_CAPS);
-            unregister_code(KC_CAPS);
+            tap_code(KC_CAPS);
             break;
 
         case TD_SINGLE_HOLD: 
@@ -153,27 +162,27 @@ static void td_caps_layers_finished(qk_tap_dance_state_t *state, void *user_data
                 switch(state->interrupting_keycode) {
                 case KC_SPC:
                     register_code(KC_LALT);
-                    register_code16(KC_TAB);
+                    tap_code(KC_TAB);
                     break;
                     
                 case KC_I:
-                    tap_code16(KC_LCTRL);
-                    register_code16(KC_UP);
+                    tap_code(KC_LCTRL);
+                    tap_code(KC_UP);
                     break;
                     
                 case KC_K:
-                    tap_code16(KC_LCTRL);
-                    register_code16(KC_DOWN);
+                    tap_code(KC_LCTRL);
+                    tap_code(KC_DOWN);
                     break;
                     
                 case KC_J:
-                    tap_code16(KC_LCTRL);
-                    register_code16(KC_LEFT);
+                    tap_code(KC_LCTRL);
+                    tap_code(KC_LEFT);
                     break;
                     
                 case KC_L:
-                    tap_code16(KC_LCTRL);
-                    register_code16(KC_RIGHT);
+                    tap_code(KC_LCTRL);
+                    tap_code(KC_RIGHT);
                     break;
                 }
             }
@@ -198,15 +207,6 @@ static void td_caps_layers_reset(qk_tap_dance_state_t *state, void *user_data) {
     layer_off(_FN2_LAYER);
     caps_layers_tap_state.state = TD_NONE;
 }
-
-// Tap Dance declarations
-enum {
-    TD_BLT_1,
-    TD_BLT_2,
-    TD_BLT_3,
-    TD_BLT_4,
-    TD_CAPS_LAYERS,
-};
 
 qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_BLT_1]       = ACTION_TAP_DANCE_FN(td_blt_1),

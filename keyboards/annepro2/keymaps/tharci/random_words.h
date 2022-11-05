@@ -10,6 +10,7 @@ typedef enum {
     EFF_DISPLAY_NUMBER,
     EFF_BLT_CONN,
     EFF_BLT_BROAD,
+    EFF_CIRCLE,
 } EffectEnum;
 
 void randomWords_update(uint16_t keycode);

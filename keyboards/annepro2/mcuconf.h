@@ -50,7 +50,7 @@
  * Peripheral driver settings
  */
 
-#define SERIAL_BUFFERS_SIZE 256
+#define SERIAL_BUFFERS_SIZE 128
 
 #define HT32_SERIAL_USE_USART0              TRUE
 #define HT32_USART0_IRQ_PRIORITY            3
@@ -62,7 +62,7 @@
  * USB driver settings
  */
 
-#define SERIAL_USB_BUFFERS_SIZE     256
+#define SERIAL_USB_BUFFERS_SIZE     128
 #define HT32_USB_USE_USB0                   TRUE
 #define HT32_USB_USB0_IRQ_PRIORITY          7
 

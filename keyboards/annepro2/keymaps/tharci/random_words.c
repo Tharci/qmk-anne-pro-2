@@ -16,6 +16,7 @@ typedef struct {
 
 Word words[] = {
     {0, {KC_H, KC_E, KC_L, KC_L, KC_O, KC_SPACE, KC_W, KC_O, KC_R, KC_L, KC_D, 0}, EFF_WEAVE_GREEN},
+    {0, {KC_B, KC_R, KC_U, KC_H, 0}, EFF_CIRCLE},
 };
 
 static systime_t lastUpdated = 0;
